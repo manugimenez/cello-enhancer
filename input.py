@@ -154,10 +154,12 @@ def run_retreieve(de_id,verilog):
     lalala='curl -u "username:password" -X POST http://cellocad.org:8080/submit \ --data-urlencode "id='+design_id+'" \ --data-urlencode "verilog_text@'+design_verilog+'" \ --data-urlencode "input_promoter_data@'+design_input+'" \ --data-urlencode "output_gene_data@'+design_output+'"'
     zzz='curl -u "username:password" -X GET http://cellocad.org:8080/results/'+design_id+'/'+design_id+'_A000_logic_circuit.txt'
     
-    #T = subprocess.run(lalala,stdout=subprocess.PIPE) # POST DESIGN
-    
+    T = subprocess.run(lalala,stdout=subprocess.PIPE) # POST DESIGN
+    Files = T.stdout.decode().splitlines()
+    print(Files)    
     T = subprocess.run(zzz,stdout=subprocess.PIPE)  #GET THE RESULT
     Files = T.stdout.decode().splitlines()
+    print(Files)
     return Files
 
 
@@ -167,6 +169,7 @@ def interprate(Files):
     temp_change=0
     
     for over_cir in range(2,200):
+        print(len(Files),over_cir)
         if len(Files[over_cir])==0:
     
             temp_change=over_cir
@@ -284,6 +287,7 @@ a=0
 L=3
 result={}   
 scores={}
+Filetowrite={}
 verilog='0xFE.v'  
 #try every input combinations
 def try_inputs(L):          
@@ -297,13 +301,13 @@ def try_inputs(L):
     ['pLuxStar',0.025,0.31,'ATAGCTTCTTACCGGACCTGTAGGATCGTACAGGTTTACGCAAGAAAATGGTTTGTTACTTTCGAATAAA']]
     #this is for list of input,     
     
-    input_index=[0,1,2]
+    input_index=[0,1,2,3]
     write_in=combinations(input_index,L)
 
     
  
     for x in write_in:  #list of combinations with order
-        inw=open('Input.txt','w')
+        inw=open('Inputs.txt','w')
         strout=' '
         design_id='aige'
         for y in x:     #x is (index1,index2), use index to access the inputs and generate string to write
@@ -311,11 +315,13 @@ def try_inputs(L):
             for s in inputs[y]:
                 strout=strout+str(s)+' '
         inw.write(strout)
+        inw.close()
         print('-------------------------',str(x),'--------------------------')  
         print(design_id)
         print(strout)
         result[design_id]=run_retreieve(design_id,verilog)
         scores[design_id]=interprate(result[design_id])
+        Filetowrite[design_id]=strout
         print('-------------------------ending-------------------------------')
     key=max(scores, key=scores.get)
     return key
@@ -326,6 +332,8 @@ circuit=Circuit()
 de_id=try_inputs(L)
 print(de_id,scores[de_id])
 
+with open('Inputs.txt','w') as kk:
+    kk.write(Filetowrite[design_id])
 
 for a in scores:
     print(a,scores[a])
