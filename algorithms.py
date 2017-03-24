@@ -9,21 +9,15 @@ potential_gates={}
 potential_gates['gate_name']={'ymax':0,'ymin':0,'K':0,'n':0}
 potential_gates['gate_name']={'ymax':0,'ymin':0,'K':0,'n':0}
 
-chain=[]
-chain.append('name of the gate being used,first gate')
-chain.append('name of the gate being used,second gate')
-chain.append('name of the gate being used,third gate')
 
 
-inputs=[0,1,2,3]
+
+inputs=[0.0,1.0,2.0,3.0]
 #the inputs on x asxis, from left to right, 
 #
 
-result_name_chain=[]
-result_name_chain.append('name of the gate being used,first gate')
-result_name_chain.append('name of the gate being used,second gate')
-result_name_chain.append('name of the gate being used,third gate')
-
+name='thegate'
+#the name of the gate that is being used now
 
 
 
@@ -31,11 +25,37 @@ def design(potential_gates,chain,inputs):
     
     
     
-    return result_name_chain
-    #the changed parameter is saved in the potential_gates
-    #score would be good too
+    return name, changed_parameter_in_dict, IMporved_scores
+    # the name of the gate that is the BEST
+
+
+
+
+
+    
+gate={'ymax':0,'ymin':0,'K':0,'n':0}
+def caculate(low_off,high_off,low_on,high_on,gate):
+    low_off=0.777
+    high_off=0.77700000000000000000077777
+    low_on=0.01
+    high_on=0.010000000000000000000002222
+
+    IN=[low_off,high_on]
+
+    K=gate['K']
+    n=gate['n']
+    ymax=gate['ymax']
+    ymin=gate['ymin']
+
     
     
+    balabalabala  this is the function I write
+
+
+
+    
+
+    return imporved_K,imporved_score
     
     
     
