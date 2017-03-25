@@ -20,9 +20,9 @@ def main():
     # parser.add_argument('values', type=float, nargs='*')
     parser.add_argument("verilog", help="path to the verilog file describing the circuit")
     parser.add_argument("ucf", help="path to the UCF file listing parts available")
-    parser.add_argument("n", help="max number of components that can be modified during optimization")
+    parser.add_argument("n", help="max number of components that can be modified during optimization",type=int)
     args = parser.parse_args()
-    # x(args.x_center, args.y_center, args.values)
+    return args
 
 
 
@@ -424,13 +424,16 @@ def try_inputs(L,verilog):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 if __name__ == '__main__':
-    main()
-    n=3
-    file_ucf='Eco1C1G1T1.UCF.json'
-    verilog='0xFE.v'  
-    n=parser.parse_args(['n'])
-    file_ucf=parser.parse_args(['ucf'])
-    verilog=parser.parse_args(['verilog'])
+    args = main()
+    # n=3
+    # file_ucf='Eco1C1G1T1.UCF.json'
+    # verilog='0xFE.v'  
+    # n=parser.parse_args(['n'])
+    # file_ucf=parser.parse_args(['ucf'])
+    # verilog=parser.parse_args(['verilog'])
+    n = args.n
+    verilog = args.verilog
+    file_ucf = args.ucf
 
     a=0
     L=3
